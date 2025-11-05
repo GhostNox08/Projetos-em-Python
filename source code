@@ -1,0 +1,65 @@
+/*pip install graphviz
+
+from collections import deque # fila com inserção no início e no fim 0(1)
+from graphviz import Graph
+from IPython.display import display
+import heapq #biblioteca para fila de prioridade heap-min
+
+feito em collab google
+
+*/
+
+grafo = {
+    '1':['2','3'],
+    '2':['4','5'],
+    '3':['6'],
+    '4':[],
+    '5':[],
+    '6':[]
+
+}
+
+def desenha_grafo(g):
+  g = Graph('G', format='svg')
+  g.attr(rankdir='TB', size = '6')
+
+  #criar nos e adicionar as arestas
+
+  for origem, destinos in grafo.items():
+    g.node(origem)
+    for destino in destinos:
+      g.edge(origem,destino)
+    #g.render("grafo", view=True)
+  return g
+  
+#função busca em largura (BFS - breath-first-search)
+
+def bfs(grafo,inicio):
+  visitados = set()
+  fila = deque([inicio])
+  while fila:
+    no = fila.popleft()
+    if no not in visitados:
+      print(no, end=' ')
+      visitados.add(no)
+      for vizinho in grafo[no]:
+        if vizinho not in visitados:
+          fila.append(vizinho)
+print("Ordem de BFS a partir do no 1")
+bfs(grafo,'1')
+
+
+#Busca em profundidade DFS = Depthfist search
+
+def dfs(grafo, inicio):
+  visitados = set()
+  pilha = [inicio]
+  while pilha:
+    no = pilha.pop()
+    if no not in visitados:
+      print(no, end=' ')
+      visitados.add(no)
+    for vizinho in grafo[no]:
+      pilha.append(vizinho)
+print("Ordem de DFS a partir do no 1")
+dfs(grafo,'1')
